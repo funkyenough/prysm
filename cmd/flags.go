@@ -2,6 +2,7 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"slices"
@@ -352,4 +353,18 @@ func isBoolFlag(com *cli.Command, name string) bool {
 		}
 	}
 	return false
+}
+
+func ValidateNetworkFlags(ctx *cli.Context) error {
+    networkFlags := []string{"mainnet", "sepolia", "holesky"}
+    count := 0
+    for _, flag := range networkFlags {
+        if ctx.Bool(flag) {
+            count++
+        }
+    }
+    if count > 1 {
+        return errors.New("only one network flag (mainnet, sepolia, holesky) can be specified")
+    }
+    return nil
 }

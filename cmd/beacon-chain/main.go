@@ -196,6 +196,10 @@ func before(ctx *cli.Context) error {
 		}
 	}
 
+	if err := cmd.ValidateNetworkFlags(ctx); err != nil {
+		return err
+	}
+
 	if err := cmd.ExpandSingleEndpointIfFile(ctx, flags.ExecutionEngineEndpoint); err != nil {
 		return errors.Wrap(err, "failed to expand single endpoint")
 	}
